@@ -24,7 +24,7 @@ See [`RESEARCH.md`](RESEARCH.md). Short version: the dominant existing MCP (`czl
 
 Repo layout, `pyproject.toml`, MCP server skeleton, `N8nClient` shell, env config, this plan, research notes.
 
-### Phase 1 — Read-only workflows (~45 min)
+### Phase 1 — Read-only workflows (✅ done)
 
 Tools:
 - `list_workflows(active?, tags?, limit?, cursor?)`
@@ -33,7 +33,7 @@ Tools:
 
 End of phase = parity with the broken built-in MCP, but actually returns workflows. **Demoable.**
 
-### Phase 2 — Workflow mutations (~45 min)
+### Phase 2 — Workflow mutations (✅ done)
 
 Tools:
 - `create_workflow(name, nodes, connections, settings?)`
@@ -44,7 +44,7 @@ Tools:
 
 Mark mutating tools with MCP `destructiveHint: true` annotation. Add a `dry_run` parameter to mutations.
 
-### Phase 3 — Executions (~45 min)
+### Phase 3 — Executions (✅ done)
 
 Tools:
 - `list_executions(workflow_id?, status?, limit?, cursor?)`
@@ -53,23 +53,22 @@ Tools:
 
 Add output-size truncation (default 50 KB) so a single huge execution doesn't blow client context.
 
-### Phase 4 — Tags, Credentials, Variables (~45 min)
+### Phase 4 — Tags, Credentials, Variables (✅ done)
 
 Standard CRUD per resource. Note: n8n's API never returns credential **values** (security) — only schema/metadata. Document this clearly in the tool description.
 
-### Phase 5 — Enterprise endpoints (~30 min)
+### Phase 5 — Enterprise endpoints (✅ done)
 
 Wrap Users, Projects, Source Control (`pull`), Audit (`generate-audit`). Detect license-gated 403/501 responses and surface a friendly "this endpoint requires an n8n Enterprise license" message.
 
-### Phase 6 — Packaging & GitHub (~45 min)
+### Phase 6 — Packaging & GitHub (✅ done)
 
 - README install snippets for Claude Code / Claude Desktop / Cursor / Windsurf
-- GitHub Actions: ruff + pytest on push
-- `pyproject` entry point: `n8n-mcp = "n8n_mcp.server:main"`
-- MIT license (already added)
-- Optional: PyPI publish workflow
+- GitHub Actions: ruff + pytest on push (`.github/workflows/ci.yml`)
+- PyPI publish workflow with trusted publishing (`.github/workflows/publish.yml`)
+- End-to-end MCP smoke verified via the MCP client SDK: 40 tools advertised, `list_workflows` round-trips real data through stdio.
 
-**Total estimate: ~4.5 hours.**
+**Total estimate: ~4.5 hours.** All phases complete — repo is ready to share.
 
 ## Cross-cutting concerns
 
