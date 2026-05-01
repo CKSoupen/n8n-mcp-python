@@ -1,3 +1,23 @@
-from . import credentials, executions, tags, variables, workflows  # noqa: F401
+from . import (  # noqa: F401
+    audit,
+    credentials,
+    executions,
+    projects,
+    source_control,
+    tags,
+    users,
+    variables,
+    workflows,
+)
 
-__all__ = ["credentials", "executions", "tags", "variables", "workflows"]
+__all__ = [
+    "audit",
+    "credentials",
+    "executions",
+    "projects",
+    "source_control",
+    "tags",
+    "users",
+    "variables",
+    "workflows",
+]
