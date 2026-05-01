@@ -101,7 +101,7 @@ async def get_workflow(
     """Get a single workflow by id, including all nodes, connections, and settings.
 
     Args:
-        workflow_id: The workflow id (e.g. "rs80gpUmpx6skc8M").
+        workflow_id: The workflow id (the alphanumeric string shown in the n8n URL).
         exclude_pinned_data: Strip pinned execution data from the response.
     """
     params = {"excludePinnedData": "true"} if exclude_pinned_data else None
