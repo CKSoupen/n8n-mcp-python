@@ -1,31 +1,23 @@
-import asyncio
-
-from mcp.server import Server
-from mcp.server.stdio import stdio_server
+from mcp.server.fastmcp import FastMCP
 
 from .client import N8nClient
 from .config import Config
 
-
-def build_server(client: N8nClient) -> Server:
-    server: Server = Server("n8n-mcp-py")
-    # Tools registered in subsequent phases (1-5).
-    return server
+mcp = FastMCP("n8n-mcp-py")
+_client: N8nClient | None = None
 
 
-async def _run() -> None:
-    config = Config.from_env()
-    client = N8nClient(config)
-    server = build_server(client)
-    try:
-        async with stdio_server() as (read_stream, write_stream):
-            await server.run(read_stream, write_stream, server.create_initialization_options())
-    finally:
-        await client.aclose()
+def get_client() -> N8nClient:
+    global _client
+    if _client is None:
+        _client = N8nClient(Config.from_env())
+    return _client
 
 
 def main() -> None:
-    asyncio.run(_run())
+    from . import tools  # noqa: F401  (registers tools as a side effect)
+
+    mcp.run()
 
 
 if __name__ == "__main__":
