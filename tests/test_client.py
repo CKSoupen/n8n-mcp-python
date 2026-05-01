@@ -1,4 +1,3 @@
-import pytest
 
 from n8n_mcp.client import N8nApiError
 
