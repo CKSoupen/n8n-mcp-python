@@ -9,7 +9,20 @@ class N8nApiError(RuntimeError):
     def __init__(self, status: int, message: str, payload: Any | None = None):
         super().__init__(f"n8n API {status}: {message}")
         self.status = status
+        self.message = message
         self.payload = payload
+
+    @property
+    def is_license_gated(self) -> bool:
+        """True when the n8n instance refused this endpoint because of license tier.
+
+        Matches both the public 403 "Your license does not allow for feat:..."
+        message and the rarer 501 "Not implemented" used by some endpoints.
+        """
+        if self.status not in (403, 501):
+            return False
+        msg = (self.message or "").lower()
+        return "license" in msg or "feat:" in msg
 
 
 class N8nClient:
